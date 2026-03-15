@@ -3,7 +3,6 @@ import sys, os, time, tempfile, selectors
 
 os.environ['XDG_RUNTIME_DIR'] = f'/run/user/{os.getenv("SUDO_UID", "1000")}'
 os.environ['WAYLAND_DISPLAY'] = 'wayland-1'
-sys.path.insert(0, '/home/leohearts')
 
 import evdev
 from evdev import InputDevice, ecodes as e
