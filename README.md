@@ -1,8 +1,39 @@
 One PC, two players — independent displays and input devices over Moonlight using cage, Sunshine, and Wayland virtual input injection (zwlr_virtual_pointer + zwp_virtual_keyboard).
 
-# How to use
+## How to use
 
-# Story: mENTAL dISORDER vs Cross-Platform LAN Gaming
+### 1. Launch cage
+```shell
+WLR_NO_HARDWARE_CURSORS=1 cage -d -- /path/to/game
+```
+
+### 2. Find the right event IDs
+
+Sunshine creates virtual input devices once a client connects. Find them:
+```shell
+cat /proc/bus/input/devices | grep -E "Name|Handlers"
+```
+
+You should see something like:
+```
+Name="Mouse passthrough"            → event22  (relative motion + buttons)
+Name="Mouse passthrough (absolute)" → event23  (absolute motion)
+Name="Keyboard passthrough"         → event24  (keyboard)
+```
+
+Then pass them to the script:
+```shell
+python3 sunshine-input-bridge.py /dev/input/event22 /dev/input/event23 /dev/input/event24
+```
+
+### 3. (Optional) Network namespace isolation
+
+If two instances on the same machine can't see each other over LAN due to localhost collision,
+run one instance inside an isolated network namespace — see `proxyup` in the tech log.
+The game will report a different local IP (`10.200.200.2`) and the two instances will discover
+each other normally.
+
+## Story: mENTAL dISORDER vs Cross-Platform LAN Gaming
 
 Why can't Linux, Mac, and Windows see each other on the network?
 Why can't a Mac Parallels Desktop VM and a Windows bare-metal machine find each other?
