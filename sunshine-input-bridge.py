@@ -84,8 +84,8 @@ def update_modifiers(keycode, value):
     vkeyboard.modifiers(mods_depressed, 0, 0, 0)
 
 # ── 打开三个设备 ───────────────────────────────────────────────────
-mouse_rel = InputDevice('/dev/input/event22')
-mouse_abs = InputDevice('/dev/input/event23')
+mouse_rel = InputDevice('/dev/input/event22') # TODO: autodetect
+mouse_abs = InputDevice('/dev/input/event23') # config HERE!
 keyboard  = InputDevice('/dev/input/event24')
 
 mouse_rel.grab()
